@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi portafolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <script src="js/main.js"></script>
+</head>
+<body>
+
+  <header class="site">
+    <nav class="main">
+      <span class="brand">Mi portafolio</span>
+      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">MENÚ</button>
+      <ul class="nav-links">
+        <li><a href="sobreMi.html">Sobre mí</a></li>
+        <li><a href="contacto.html">Contacto</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="panel hero">
+      <p class="eyebrow">// perfil</p>
+      <div class="avatar-frame">
+        <img class="avatar" src="miFoto.jpeg" alt="Foto de perfil de Sebas" onerror="this.src='https://placehold.co/96x96/12161f/57d6c9?text=S'">
+        <div>
+          <h1>Hola, soy Sebastián</h1>
+        </div>
+      </div>
+
+      <p>
+        Estoy construyendo mi carrera entre programación y el desarrollo de software.
+        Este espacio reúne quién soy, en qué he trabajado y cómo ponerte en contacto conmigo.
+        Considéralo mi carta de presentación.
+      </p>
+
+    </section>
+
+    <section class="panel">
+      <p class="eyebrow">// resumen rápido</p>
+      <div class="chips">
+        <span class="chip">HTML / CSS / JS</span>
+        <span class="chip">Flutter</span>
+        <span class="chip">Node.js + Express</span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <p>&copy; 2026 Sebastian — hecho con HTML, CSS y JavaScript.</p>
+  </footer>
+</body>
+</html>
