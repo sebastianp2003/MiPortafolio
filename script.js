@@ -1,46 +1,47 @@
-document.addEventListener("DOMContentLoaded", () => {
+$(function () {
   marcarEnlaceActivo();
   configurarMenuMovil();
   efectoTecleo();
   animarBarras();
+  animarEntrada();
+  configurarFormularioContacto();
 });
 
+// Resalta en el menú el enlace de la página actual
 function marcarEnlaceActivo() {
   const pagina = window.location.pathname.split("/").pop() || "index.html";
-  document.querySelectorAll(".nav-links a").forEach((enlace) => {
-    const destino = enlace.getAttribute("href");
+  $(".nav-link").each(function () {
+    const destino = $(this).attr("href");
     if (destino === pagina) {
-      enlace.classList.add("active");
-      enlace.setAttribute("aria-current", "page");
+      $(this).addClass("active").attr("aria-current", "page");
     }
   });
 }
 
+// El botón hamburguesa lo maneja Bootstrap (data-bs-toggle="collapse");
+// aquí solo cerramos el menú al tocar un enlace, para que no quede abierto.
 function configurarMenuMovil() {
-  const boton = document.querySelector(".nav-toggle");
-  const enlaces = document.querySelector(".nav-links");
-  if (!boton || !enlaces) return;
-
-  boton.addEventListener("click", () => {
-    const abierto = enlaces.classList.toggle("open");
-    boton.setAttribute("aria-expanded", String(abierto));
+  $(".nav-link").on("click", function () {
+    const $menu = $("#menuPrincipal");
+    if ($menu.hasClass("show")) {
+      $menu.collapse("hide");
+    }
   });
 }
 
+// Efecto de "máquina de escribir" en el tagline del hero
 function efectoTecleo() {
-  const el = document.querySelector("[data-typing]");
-  if (!el) return;
+  const $el = $("[data-typing]");
+  if ($el.length === 0) return;
 
-  const texto = el.dataset.typing;
-  el.textContent = "";
-  const cursor = document.createElement("span");
-  cursor.className = "cursor";
-  el.after(cursor);
+  const texto = $el.data("typing");
+  $el.text("");
+  $el.after('<span class="cursor"></span>');
 
   let i = 0;
   const escribir = () => {
     if (i <= texto.length) {
-      el.textContent = texto.slice(0, i);
+      $el.text(texto.slice(0, i));
       i++;
       setTimeout(escribir, 28);
     }
@@ -48,11 +49,88 @@ function efectoTecleo() {
   escribir();
 }
 
+// Anima las barras de nivel de habilidad hasta su ancho final
 function animarBarras() {
-  document.querySelectorAll(".bar > span").forEach((barra) => {
-    const nivel = barra.dataset.nivel || "0";
+  $(".progress-terminal .progress-bar").each(function () {
+    const nivel = $(this).data("nivel") || 0;
+    $(this).attr("aria-valuenow", nivel);
     requestAnimationFrame(() => {
-      barra.style.width = nivel + "%";
+      $(this).css("width", nivel + "%");
     });
+  });
+}
+
+// Una sola entrada suave para los paneles principales al cargar la página
+function animarEntrada() {
+  $(".panel.fade-target").each(function (i) {
+    $(this)
+      .delay(i * 90)
+      .animate({ opacity: 1 }, 400)
+      .css({ transform: "translateY(0)", transition: "transform 0.4s ease" });
+  });
+}
+
+// Validación del formulario de contacto (sin recargar la página)
+function configurarFormularioContacto() {
+  const $form = $("#form-contacto");
+  if ($form.length === 0) return;
+
+  const $nombre = $("#nombre");
+  const $email = $("#email");
+  const $mensaje = $("#mensaje");
+  const $toast = $("#toast");
+
+  const reglas = {
+    nombre: {
+      valido: (valor) => valor.trim().length >= 3,
+      error: "Escribe tu nombre completo (mínimo 3 caracteres).",
+    },
+    email: {
+      valido: (valor) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor.trim()),
+      error: "Ingresa un correo válido, por ejemplo nombre@dominio.com.",
+    },
+    mensaje: {
+      valido: (valor) => valor.trim().length >= 10,
+      error: "Cuéntame un poco más (mínimo 10 caracteres).",
+    },
+  };
+
+  function validarCampo($campo, regla) {
+    const valor = $campo.val();
+    const esValido = regla.valido(valor);
+    $campo.toggleClass("is-invalid", !esValido);
+    $campo.toggleClass("is-valid", esValido);
+    $campo.next(".invalid-feedback-terminal").text(esValido ? "" : regla.error);
+    return esValido;
+  }
+
+  // Valida cada campo mientras el usuario escribe, después del primer intento de envío
+  $nombre.on("input", () => validarCampo($nombre, reglas.nombre));
+  $email.on("input", () => validarCampo($email, reglas.email));
+  $mensaje.on("input", () => validarCampo($mensaje, reglas.mensaje));
+
+  $form.on("submit", function (evento) {
+    evento.preventDefault();
+
+    const nombreOk = validarCampo($nombre, reglas.nombre);
+    const emailOk = validarCampo($email, reglas.email);
+    const mensajeOk = validarCampo($mensaje, reglas.mensaje);
+
+    if (!nombreOk || !emailOk || !mensajeOk) {
+      $toast
+        .removeClass("text-success")
+        .addClass("text-danger")
+        .text("Revisa los campos marcados en rojo antes de enviar.");
+      return;
+    }
+
+    // Aquí no hay backend: solo confirmamos visualmente el envío.
+    $toast
+      .removeClass("text-danger")
+      .addClass("text-success")
+      .text(`¡Gracias, ${$nombre.val().trim()}! Tu mensaje quedó registrado.`);
+
+    $form[0].reset();
+    $form.find(".is-valid").removeClass("is-valid");
   });
 }

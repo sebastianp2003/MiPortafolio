@@ -5,24 +5,30 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mi portafolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
-  <script src="js/main.js"></script>
 </head>
 <body>
 
   <header class="site">
-    <nav class="main">
-      <span class="brand">Mi portafolio</span>
-      <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">MENÚ</button>
-      <ul class="nav-links">
-        <li><a href="sobreMi.html">Sobre mí</a></li>
-        <li><a href="contacto.html">Contacto</a></li>
-      </ul>
+    <nav class="navbar navbar-expand-sm navbar-custom">
+      <div class="container-fluid p-0">
+        <span class="navbar-brand brand m-0">Mi portafolio</span>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menuPrincipal" aria-controls="menuPrincipal" aria-expanded="false" aria-label="Abrir menú">
+          MENÚ
+        </button>
+        <div class="collapse navbar-collapse" id="menuPrincipal">
+          <ul class="navbar-nav ms-auto gap-1">
+            <li class="nav-item"><a class="nav-link" href="sobreMi.html">Sobre mí</a></li>
+            <li class="nav-item"><a class="nav-link" href="contacto.html">Contacto</a></li>
+          </ul>
+        </div>
+      </div>
     </nav>
   </header>
 
   <main>
-    <section class="panel hero">
+    <section class="panel hero fade-target">
       <p class="eyebrow">// perfil</p>
       <div class="avatar-frame">
         <img class="avatar" src="miFoto.jpeg" alt="Foto de perfil de Sebas" onerror="this.src='https://placehold.co/96x96/12161f/57d6c9?text=S'">
@@ -31,15 +37,21 @@
         </div>
       </div>
 
+      <p class="tagline" data-typing="Estudiante de ingeniería de software"></p>
+
       <p>
         Estoy construyendo mi carrera entre programación y el desarrollo de software.
         Este espacio reúne quién soy, en qué he trabajado y cómo ponerte en contacto conmigo.
         Considéralo mi carta de presentación.
       </p>
 
+      <div class="cta-row">
+        <a href="sobreMi.html" class="btn btn-terminal">Ver mi perfil</a>
+        <a href="contacto.html" class="btn btn-terminal ghost">Escribirme</a>
+      </div>
     </section>
 
-    <section class="panel">
+    <section class="panel fade-target">
       <p class="eyebrow">// resumen rápido</p>
       <div class="chips">
         <span class="chip">HTML / CSS / JS</span>
@@ -50,7 +62,11 @@
   </main>
 
   <footer class="site">
-    <p>&copy; 2026 Sebastian — hecho con HTML, CSS y JavaScript.</p>
+    <p>&copy; 2026 Sebastian — hecho con HTML, CSS, JavaScript</p>
   </footer>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
